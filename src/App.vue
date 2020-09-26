@@ -1,24 +1,24 @@
 <template>
-  <main class="main-container">
+  <main class="app">
     <TasksList
-      class="task-list-container"
-      v-bind:tasks="mockData.tasks">
+      class="app__task-list"
+      :tasks="mockData.tasks">
     </TasksList>
-    <AddTaskListItem
-      class="add-task-list-item-container">
-    </AddTaskListItem>
+    <AddTaskButton
+      class="app__add-task-btn">
+    </AddTaskButton>
   </main>
 </template>
 
 <script>
-import TasksList from './components/TasksList.vue';
-import AddTaskListItem from './components/AddTaskListItem.vue';
+import TasksList from './components/tasks-list/TasksList';
+import AddTaskButton from './components/add-task-button/AddTaskButton';
 
 export default {
   name: 'App',
   components: {
     TasksList,
-    AddTaskListItem
+    AddTaskButton
   },
   data() {
     return {
@@ -26,27 +26,32 @@ export default {
         tasks: [
           {
             id: 1,
-            text: 'Task №1'
+            text: 'Task №1',
+            done: true
           },
           {
             id: 2,
-            text: 'Task №2'
+            text: 'Task №2',
+            done: true
           },
           {
             id: 3,
-            text: 'Task №3'
+            text: 'Task №3',
+            done: false
           },
           {
             id: 4,
-            text: 'Task №4'
+            text: 'Task №4',
+            done: false
           },
           {
             id: 5,
-            text: 'Task №5'
-          },
+            text: 'Task №5',
+            done: false
+          }
         ]
       }
-    };
+    }
   }
 }
 </script>
@@ -72,17 +77,17 @@ html, body, main {
   height: 100%;
 }
 
-.main-container {
+.app {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
 }
 
-.task-list-container {
+.app__task-list {
   flex-grow: 1;
 }
 
-.add-task-list-item-container {
+.app__add-task-btn {
   position: fixed;
   bottom: 1rem;
   right: 1rem;

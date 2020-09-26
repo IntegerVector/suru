@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'AddTaskListItem'
+  name: 'AddTaskButton'
 }
 </script>
 
