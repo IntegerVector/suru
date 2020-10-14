@@ -42,7 +42,7 @@ export default {
     },
     onClicked() {
       this.checked = !this.checked;
-      this.$emit('change', this.checked);
+      this.$emit('update:modelValue', this.checked);
     }
   }
 }
