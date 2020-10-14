@@ -6,9 +6,8 @@
         v-for="task in tasks"
         :key="task.id">
         <TaskListItem
-          :isDone="task.done"
-          :text="task.text"
-          :mode="'view'">
+          :task="task"
+          @change="onChange">
         </TaskListItem>
       </li>
     </ul>
@@ -30,17 +29,18 @@ export default {
         return [];
       }
     }
+  },
+  methods: {
+    onChange() {
+
+    }
   }
 }
 </script>
 
 <style scoped>
-ul {
+ul, li {
   list-style-type: none;
-}
-
-li {
-  display: inline-block;
 }
 
 .tasks-list {

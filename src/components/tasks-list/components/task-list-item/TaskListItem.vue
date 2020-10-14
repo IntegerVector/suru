@@ -2,11 +2,13 @@
   <div class="task-list-item">
     <Checkbox
       class="task-list-item__checkbox"
-      v-model="taskStatus">
+      v-model="taskStatus"
+      @update:modelValue="onChange">
     </Checkbox>
     <EditableText
       class="task-list-item__text"
-      v-model="taskText">
+      v-model="taskText"
+      @update:modelValue="onChange">
     </EditableText>
     <DeleteButton
       class="task-list-item__delete-button"
@@ -28,18 +30,28 @@ export default {
     DeleteButton
   },
   props: {
-    isDone: Boolean,
-    text: String
+    task: Object
+  },
+  emits: {
+    change: Function,
+    delete: Function
   },
   data() {
     return {
-      taskStatus: this.isDone,
-      taskText: this.text
+      taskStatus: this.task.done,
+      taskText: this.task.text
     };
   },
   methods: {
+    onChange() {
+      this.$emit('change', {
+        id: this.task.id,
+        text: this.taskText,
+        done: this.taskStatus
+      });
+    },
     onDeleted() {
-      console.log('D');
+      this.$emit('delete', this.task.id);
     }
   }
 }
@@ -47,7 +59,7 @@ export default {
 
 <style scoped>
 .task-list-item {
-  margin: 0.25rem 1rem 0.25rem 1rem;
+  margin: 0.25rem 0.5rem 0.25rem 1rem;
   display: flex;
   align-items: center;
 }
