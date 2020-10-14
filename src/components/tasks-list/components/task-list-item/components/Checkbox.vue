@@ -82,6 +82,7 @@ export default {
 }
 
 .checkbox--checked, .checkbox--unchecked {
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
   transition: background-color var(--transition-speed),
     border-color var(--transition-speed);
   color: var(--text-color--light);
