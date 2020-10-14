@@ -2,17 +2,22 @@
   <main class="app">
     <TasksList
       class="app__task-list"
-      v-model="mockData.tasks">
+      v-model="tasks"
+      @update:modelValue="onChange">
     </TasksList>
-    <AddTaskButton
-      class="app__add-task-btn">
-    </AddTaskButton>
+    <div class="app__add-task-container">
+      <AddTaskButton
+        class="app__add-task-btn"
+        @clicked="onNewTask">
+      </AddTaskButton>
+    </div>
   </main>
 </template>
 
 <script>
 import TasksList from './components/tasks-list/TasksList';
 import AddTaskButton from './components/add-task-button/AddTaskButton';
+import { loadTasks, saveTasks } from './helpers/local-storage.helper'; 
 
 export default {
   name: 'App',
@@ -22,35 +27,32 @@ export default {
   },
   data() {
     return {
-      mockData: {
-        tasks: [
-          {
-            id: 1,
-            text: 'Task №1',
-            done: true
-          },
-          {
-            id: 2,
-            text: 'Task №2',
-            done: true
-          },
-          {
-            id: 3,
-            text: 'Task №3',
-            done: false
-          },
-          {
-            id: 4,
-            text: 'Task №4',
-            done: false
-          },
-          {
-            id: 5,
-            text: 'Task №5',
-            done: false
-          }
-        ]
-      }
+      tasks: []
+    }
+  },
+  created() {
+    this.tasks = loadTasks();
+  },
+  methods: {
+    onChange() {
+      saveTasks(this.tasks);
+    },
+    onNewTask() {
+      const newId = this.tasks.length;
+      this.tasks.push({
+        id: newId,
+        text: '',
+        done: false
+      });
+
+      this.setFocusOnNewTask(newId);
+    },
+    setFocusOnNewTask(taskId) {
+      setTimeout(() => {
+        const addedTask = document.getElementById('task_id_' + taskId);
+        const textInput = addedTask.getElementsByClassName('editable-text__input')[0];
+        textInput.focus();
+      }, 100);
     }
   }
 }
@@ -63,7 +65,7 @@ export default {
   --focus-color: #008000;
   --focus-speed: 20ms;
   --main-color--active: #88c588;
-  --main-color--hover: #88c588;
+  --main-color--hover: #5faf5f;
   --main-color--inactive: #dddddd;
   --transition-speed: 200ms;
   --text-color: #1b1b1b;
@@ -95,11 +97,16 @@ html, body, main {
   flex-grow: 1;
 }
 
-.app__add-task-btn {
-  position: fixed;
+.app__add-task-container {
+  position: absolute;
   bottom: 1rem;
-  right: 1rem;
-  width: 3rem;
-  height: 3rem;
+  right: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.app__add-task-btn:active {
+  
 }
 </style>

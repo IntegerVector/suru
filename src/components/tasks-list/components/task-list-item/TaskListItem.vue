@@ -1,5 +1,7 @@
 <template>
-  <div class="task-list-item">
+  <div
+    :id="'task_id_'+task.id"
+    class="task-list-item">
     <Checkbox
       class="task-list-item__checkbox"
       v-model="taskStatus"
