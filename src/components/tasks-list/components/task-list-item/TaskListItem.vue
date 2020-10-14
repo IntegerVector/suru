@@ -33,8 +33,8 @@ export default {
     task: Object
   },
   emits: {
-    change: Function,
-    delete: Function
+    change: null,
+    delete: null
   },
   data() {
     return {

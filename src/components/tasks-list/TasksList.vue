@@ -7,7 +7,8 @@
         :key="task.id">
         <TaskListItem
           :task="task"
-          @change="onChange">
+          @change="onChange($event)"
+          @delete="onDelete($event)">
         </TaskListItem>
       </li>
     </ul>
@@ -23,16 +24,54 @@ export default {
     TaskListItem
   },
   props: {
-    tasks: {
+    modelValue: {
       type: Array,
       default: function() {
         return [];
       }
     }
   },
+  data() {
+    return {
+      tasks: this.modelValue
+    }
+  },
   methods: {
-    onChange() {
+    onChange($event) {
+      const taskId = $event.id || -1;
 
+      this.tasks = this.tasks.map(task => {
+        return task.id === taskId
+          ? {
+              id: task.id,
+              text: $event.text,
+              done: $event.done
+            }
+          : task;
+      });
+
+      this.emitChanges();
+    },
+    onDelete($event) {
+      const taskId = $event;
+
+      if (!taskId) {
+        return -1;
+      }
+
+      const taskIndex = this.tasks.findIndex(task => {
+        return task.id === taskId;
+      });
+
+      if (taskIndex === -1) {
+        return;
+      }
+
+      this.tasks.splice(taskIndex, 1);
+      this.emitChanges();
+    },
+    emitChanges() {
+      this.$emit('update:modelValue', this.tasks);
     }
   }
 }
@@ -44,14 +83,17 @@ ul, li {
 }
 
 .tasks-list {
-
+  width: 100%;
+  height: 100%;
 }
 
 .tasks-list__list {
-
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
 }
 
-.tasks-list__item {
-
+.tasks-list__item:hover {
+  border-bottom: 1px solid #eeeeee;
 }
 </style>

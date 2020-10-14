@@ -13,7 +13,7 @@
 export default {
   name: 'DeleteButton',
   emits: {
-    deleted: Function
+    deleted: null
   }
 }
 </script>

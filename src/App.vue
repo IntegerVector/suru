@@ -2,7 +2,7 @@
   <main class="app">
     <TasksList
       class="app__task-list"
-      :tasks="mockData.tasks">
+      v-model="mockData.tasks">
     </TasksList>
     <AddTaskButton
       class="app__add-task-btn">
