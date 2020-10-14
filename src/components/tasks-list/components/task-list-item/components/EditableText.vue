@@ -1,7 +1,6 @@
 <template>
   <div class="editable-text">
     <input
-      id="text-input"
       class="editable-text__input"
       type="text"
       v-model="text"
@@ -35,17 +34,17 @@ export default {
 }
 
 .editable-text__input {
+  cursor: pointer;
   flex-grow: 1;
   font-size: var(--text-size--regular);
   font-family: var(--text-font--regular);
   height: 1rem;
   border-radius: 0.2rem;
   border: 0 solid transparent;
+  outline: none;
 }
 
 .editable-text__input:focus {
-  outline: none;
-  transition: var(--focus-speed);
   border: 0.2rem solid var(--focus-color);
 }
 </style>

@@ -68,6 +68,8 @@ export default {
   --transition-speed: 200ms;
   --text-color: #1b1b1b;
   --text-color--light: #fcfcfc;
+  --text-font--regular: Arial;
+  --text-size--regular: 1rem;
 }
 
 * {

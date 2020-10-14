@@ -1,15 +1,16 @@
 <template>
   <div class="task-list-item">
     <Checkbox
-      class="task-list-item__checkbox">
+      class="task-list-item__checkbox"
+      v-model="taskStatus">
     </Checkbox>
     <EditableText
       class="task-list-item__text"
-      :mode="mode"
-      :text="text">
+      v-model="taskText">
     </EditableText>
     <DeleteButton
-      class="task-list-item__delete-button">
+      class="task-list-item__delete-button"
+      @deleted="onDeleted">
     </DeleteButton>
   </div>
 </template>
@@ -27,30 +28,36 @@ export default {
     DeleteButton
   },
   props: {
-    isDone: {
-      type: Boolean,
-      default: false
-    },
-    text: String,
-    mode: String
+    isDone: Boolean,
+    text: String
+  },
+  data() {
+    return {
+      taskStatus: this.isDone,
+      taskText: this.text
+    };
+  },
+  methods: {
+    onDeleted() {
+      console.log('D');
+    }
   }
 }
 </script>
 
 <style scoped>
 .task-list-item {
-
+  margin: 0.25rem 1rem 0.25rem 1rem;
+  display: flex;
+  align-items: center;
 }
 
 .task-list-item__checkbox {
-
+  margin-right: 0.5rem;
 }
 
 .task-list-item__text {
-
-}
-
-.task-list-item__delete-button {
-  
+  flex-grow: 1;
+  text-align: start;
 }
 </style>
