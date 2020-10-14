@@ -60,14 +60,20 @@ export default {
 :root {
   font-size: x-large;
   background-color: white;
+  --focus-color: #008000;
+  --focus-speed: 20ms;
+  --main-color--active: #88c588;
+  --main-color--hover: #88c588;
+  --main-color--inactive: #dddddd;
+  --transition-speed: 200ms;
+  --text-color: #1b1b1b;
+  --text-color--light: #fcfcfc;
 }
 
 * {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
   margin: 0;
   padding: 0;
 }
