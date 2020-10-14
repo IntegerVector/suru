@@ -1,39 +1,44 @@
 <template>
-  <section class="add-task-section-container">
-    ＋
+  <section
+    class="add-task-section-container"
+    title="Add task button"
+    @click="$emit('clicked')">
+    + New task
   </section>
 </template>
 
 <script>
 export default {
-  name: 'AddTaskButton'
+  name: 'AddTaskButton',
+  emits: {
+    clicked: null
+  }
 }
 </script>
 
 <style scoped>
 .add-task-section-container{
+  padding: 0.5rem 1rem 0.5rem 1rem;
   display: flex;
+  cursor: pointer;
   align-items: center;
-  justify-content: center;
-  font-size: 2rem;
+  font-size: x-large;
   user-select: none;
   outline: none;
   color: white;
-  border-radius: 50%;
+  border-radius: 5rem;
   border: 1px solid transparent;
-  border-radius: 50%;
-  background-color: #568bff;
+  background-color: var(--main-color--active);
   box-shadow: 0 0.1rem 0.2rem 0 rgba(0, 0, 0, 0.8);
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-  cursor: pointer;
+  transition: background-color var(--transition-speed);
 }
 
 .add-task-section-container:hover {
-  background-color: #3e6bff;
-  transition: 400ms;
+  background-color: var(--main-color--hover);
 }
 
 .add-task-section-container:active {
-  background-color: #0000ff;
+  background-color: var(--main-color--active);
 }
 </style>
