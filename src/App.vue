@@ -17,7 +17,7 @@
 <script>
 import TasksList from './components/tasks-list/TasksList';
 import AddTaskButton from './components/add-task-button/AddTaskButton';
-import { loadTasks, saveTasks } from './helpers/local-storage.helper'; 
+import { loadTasks, saveTasks, getNewId } from './helpers/local-storage.helper'; 
 
 export default {
   name: 'App',
@@ -38,7 +38,7 @@ export default {
       saveTasks(this.tasks);
     },
     onNewTask() {
-      const newId = this.tasks.length;
+      const newId = getNewId();
       this.tasks.push({
         id: newId,
         text: '',
