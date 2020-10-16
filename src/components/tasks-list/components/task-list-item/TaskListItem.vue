@@ -71,6 +71,7 @@ export default {
 }
 
 .task-list-item__text {
+  min-width: 2rem;
   flex-grow: 1;
   text-align: start;
 }

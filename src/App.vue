@@ -98,15 +98,8 @@ html, body, main {
 }
 
 .app__add-task-container {
-  position: absolute;
-  bottom: 1rem;
-  right: 0;
-  left: 0;
+  margin: 1rem;
   display: flex;
-  justify-content: center;
-}
-
-.app__add-task-btn:active {
-  
+  justify-content: flex-end;
 }
 </style>

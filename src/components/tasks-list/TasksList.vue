@@ -93,6 +93,7 @@ ul, li {
   display: flex;
   flex-direction: column;
   overflow: auto;
+  height: 100%;
 }
 
 .tasks-list__item:hover {

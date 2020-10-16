@@ -34,8 +34,8 @@ export default {
 }
 
 .editable-text__input {
+  min-width: 2rem;
   cursor: pointer;
-  flex-grow: 1;
   font-size: var(--text-size--regular);
   font-family: var(--text-font--regular);
   height: 1rem;
