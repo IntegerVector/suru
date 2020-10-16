@@ -4,7 +4,8 @@
       class="editable-text__input"
       type="text"
       v-model="text"
-      @input="emitChanges">
+      @change="emitChanges"
+      @blur="emitChanges">
   </div>
 </template>
 
@@ -16,7 +17,8 @@ export default {
   },
   data() {
     return {
-      text: this.modelValue
+      text: this.modelValue,
+      debounce: null
     };
   },
   methods: {
@@ -38,7 +40,6 @@ export default {
   cursor: pointer;
   font-size: var(--text-size--regular);
   font-family: var(--text-font--regular);
-  height: 1rem;
   border-radius: 0.2rem;
   border: 0 solid transparent;
   outline: none;

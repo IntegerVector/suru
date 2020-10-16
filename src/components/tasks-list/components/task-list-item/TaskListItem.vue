@@ -46,11 +46,15 @@ export default {
   },
   methods: {
     onChange() {
-      this.$emit('change', {
-        id: this.task.id,
-        text: this.taskText,
-        done: this.taskStatus
-      });
+      if (!this.taskText) {
+        this.onDeleted();
+      } else {
+        this.$emit('change', {
+          id: this.task.id,
+          text: this.taskText,
+          done: this.taskStatus
+        });
+      }
     },
     onDeleted() {
       this.$emit('delete', this.task.id);
