@@ -38,7 +38,9 @@ export default {
   },
   methods: {
     onChange($event) {
-      const taskId = $event.id || -1;
+      const taskId = $event.id === undefined
+        ? -1
+        : $event.id;
 
       this.tasks = this.tasks.map(task => {
         return task.id === taskId
@@ -55,8 +57,8 @@ export default {
     onDelete($event) {
       const taskId = $event;
 
-      if (!taskId) {
-        return -1;
+      if (taskId === undefined) {
+        return;
       }
 
       const taskIndex = this.tasks.findIndex(task => {
