@@ -1,16 +1,14 @@
 <template>
-  <main class="app">
+  <main>
     <TasksList
-      class="app__task-list"
+      class="task-list"
       v-model="tasks"
       @update:modelValue="onChange">
     </TasksList>
-    <div class="app__add-task-container">
-      <AddTaskButton
-        class="app__add-task-btn"
-        @clicked="onNewTask">
-      </AddTaskButton>
-    </div>
+    <AddTaskButton
+      class="add-task-btn"
+      @clicked="onNewTask">
+    </AddTaskButton>
   </main>
 </template>
 
@@ -95,18 +93,19 @@ html, body, main {
   height: 100%;
 }
 
-.app {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-}
-
-.app__task-list {
+.task-list {
+  position: absolute;
+  top: 0;
+  bottom: 4rem;
+  left: 0;
+  right: 0;
   flex-grow: 1;
 }
 
-.app__add-task-container {
-  margin: 1rem;
+.add-task-btn {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
   display: flex;
   justify-content: flex-end;
 }

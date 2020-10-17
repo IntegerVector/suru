@@ -84,11 +84,6 @@ ul, li {
   list-style-type: none;
 }
 
-.tasks-list {
-  width: 100%;
-  height: 100%;
-}
-
 .tasks-list__list {
   display: flex;
   flex-direction: column;
@@ -97,6 +92,6 @@ ul, li {
 }
 
 .tasks-list__item:hover {
-  box-shadow: 0px 5px 3px -2px rgba(0,0,0,0.15);
+  box-shadow: 0 0.2rem 0.1rem -0.1rem rgba(0,0,0,0.2);
 }
 </style>
