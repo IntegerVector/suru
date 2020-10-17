@@ -1,0 +1,20 @@
+{
+  "name": "Suru",
+  "short_name": "Suru",
+  "icons": [
+    {
+    "src": "/suru/icons/icon-192x192.png",
+    "sizes": "192x192",
+    "type": "image/png"
+    },
+    {
+    "src": "/suru/icons/icon-512x512.png",
+    "sizes": "512x512",
+    "type": "image/png"
+    }
+  ],
+  "start_url": "/suru/index.html",
+  "display": "standalone",
+  "background_color": "#88c588",
+  "theme_color": "#5faf5f"
+}
