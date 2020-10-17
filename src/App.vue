@@ -32,6 +32,14 @@ export default {
   },
   created() {
     this.tasks = loadTasks();
+    document.onkeyup = ($event) => {
+      const key = $event.key;
+      const code = $event.code;
+      
+      if (code === 'Enter' && key === code) {
+        this.onNewTask();
+      }
+    }
   },
   methods: {
     onChange() {
@@ -52,7 +60,7 @@ export default {
         const addedTask = document.getElementById('task_id_' + taskId);
         const textInput = addedTask.getElementsByClassName('editable-text__input')[0];
         textInput.focus();
-      }, 100);
+      }, 50);
     }
   }
 }
