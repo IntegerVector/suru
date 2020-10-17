@@ -97,6 +97,6 @@ ul, li {
 }
 
 .tasks-list__item:hover {
-  border-bottom: 1px solid #eeeeee;
+  box-shadow: 0px 5px 3px -2px rgba(0,0,0,0.15);
 }
 </style>
