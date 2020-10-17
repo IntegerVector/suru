@@ -65,6 +65,7 @@ export default {
 </script>
 
 <style>
+/* Global variables */
 :root {
   font-size: x-large;
   background-color: white;
@@ -80,6 +81,7 @@ export default {
   --text-size--regular: 1rem;
 }
 
+/* Global */
 * {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -93,6 +95,24 @@ html, body, main {
   height: 100%;
 }
 
+/* Scroll */
+::-webkit-scrollbar {
+  width: 0.3rem;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cfcfcf;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--main-color--active);
+}
+
+/* Components */
 .task-list {
   position: absolute;
   top: 0;
