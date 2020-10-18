@@ -41,12 +41,12 @@ export default {
   cursor: pointer;
   font-size: var(--text-size--regular);
   font-family: var(--text-font--regular);
-  border-radius: 0.2rem;
+  border-radius: 0.1rem;
   border: 0 solid transparent;
   outline: none;
 }
 
 .editable-text__input:focus {
-  border: 0.2rem solid var(--focus-color);
+  border-bottom: 0.15rem solid var(--focus-color);
 }
 </style>

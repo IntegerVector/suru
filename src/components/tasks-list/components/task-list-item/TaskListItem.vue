@@ -71,12 +71,16 @@ export default {
 }
 
 .task-list-item__checkbox {
-  margin-right: 0.5rem;
+  margin-right: 0.8rem;
 }
 
 .task-list-item__text {
   min-width: 2rem;
   flex-grow: 1;
   text-align: start;
+}
+
+.task-list-item__delete-button {
+  margin-left: 0.5rem; 
 }
 </style>

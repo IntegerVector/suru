@@ -91,7 +91,7 @@ ul, li {
   height: 100%;
 }
 
-.tasks-list__item:hover {
-  box-shadow: 0 0.2rem 0.1rem -0.1rem rgba(0,0,0,0.2);
+.tasks-list__item {
+  box-shadow: 0 0.15rem 0.1rem -0.1rem rgba(0,0,0,0.15);
 }
 </style>

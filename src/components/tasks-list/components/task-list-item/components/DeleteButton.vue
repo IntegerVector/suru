@@ -4,7 +4,7 @@
       title="delete task"
       class="delete-button__button"
       @click="$emit('deleted')">
-      ✕
+      <img src="/icons/delete.svg" alt="delete task">
     </button>
   </div>
 </template>
@@ -26,12 +26,15 @@ export default {
 }
 
 .delete-button__button {
-  width: 1.5rem;
-  height: 1.5rem;
+  min-width: 1rem;
+  min-height: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: xx-large;
   user-select: none;
   cursor: pointer;
-  border: 0 solid transparent;
+  border: 0.2rem solid transparent;
   border-radius: 0.2rem;
   transition: background-color var(--transition-speed),
     color var(--transition-speed);
@@ -42,7 +45,8 @@ export default {
 }
 
 .delete-button__button:focus, .delete-button__button:hover {
-  background-color: #fc4242;
+  background-color: #EEA3A3;
+  border: 0.2rem solid #DB545F;
   color: white;
 }
 </style>

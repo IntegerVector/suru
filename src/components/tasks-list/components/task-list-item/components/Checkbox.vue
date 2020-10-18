@@ -5,12 +5,21 @@
       type="checkbox"
       :value="checked">
     <span
+      v-if="!checked"
       class="checkbox__visible-input"
       :class="getStateClass()"
       :title="getTitle()"
       @click="onClicked()">
-      {{ checked ? '✔' : '&nbsp;' }}
+      &nbsp;
     </span>
+    <img
+      v-if="checked"
+      src="/icons/checked.svg"
+      alt="done"
+      class="checkbox__visible-input"
+      :class="getStateClass()"
+      :title="getTitle()"
+      @click="onClicked()">
   </div>
 </template>
 
@@ -93,6 +102,11 @@ export default {
 .checkbox--checked {
   background-color: var(--main-color--active);
   border-color: var(--main-color--active);
+}
+
+.checkbox--checked:hover {
+  border-color: var(--main-color--hover);
+  background-color: var(--main-color--hover);
 }
 
 .checkbox--unchecked {

@@ -69,14 +69,15 @@ export default {
 :root {
   font-size: x-large;
   background-color: white;
-  --focus-color: #008000;
+  --focus-color: #239D72;
+  --focus-color--light: #9CADBC;
   --focus-speed: 20ms;
   --main-color--active: #88c588;
-  --main-color--hover: #5faf5f;
-  --main-color--inactive: #dddddd;
+  --main-color--hover: #00B17B;
+  --main-color--inactive: #A3ABBD;
   --transition-speed: 200ms;
   --text-color: #1b1b1b;
-  --text-color--light: #fcfcfc;
+  --text-color--light: #f2f2f2ff;
   --text-font--regular: Arial;
   --text-size--regular: 1rem;
 }
@@ -97,7 +98,7 @@ html, body, main {
 
 /* Scroll */
 ::-webkit-scrollbar {
-  width: 0.3rem;
+  width: 0.25rem;
 }
 
 ::-webkit-scrollbar-track {
@@ -105,7 +106,7 @@ html, body, main {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cfcfcf;
+  background: #c1c1c1c1;
 }
 
 ::-webkit-scrollbar-thumb:hover {
