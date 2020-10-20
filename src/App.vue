@@ -69,7 +69,7 @@ export default {
   --focus-speed: 20ms;
   --main-color--active: #88c588;
   --main-color--hover: #00B17B;
-  --main-color--inactive: #A3ABBD;
+  --main-color--inactive: #d2d7e0;
   --transition-speed: 200ms;
   --text-color: #1b1b1b;
   --text-color--light: #f2f2f2ff;
