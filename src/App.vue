@@ -68,7 +68,8 @@ export default {
 /* Global variables */
 :root {
   font-size: x-large;
-  background-color: white;
+  --background-color: white;
+  --background-color--hover: #DDDDDD;
   --focus-color: #239D72;
   --focus-color--light: #9CADBC;
   --focus-speed: 20ms;
@@ -94,6 +95,7 @@ export default {
 html, body, main {
   width: 100%;
   height: 100%;
+  background-color: var(--background-color);
 }
 
 /* Scroll */

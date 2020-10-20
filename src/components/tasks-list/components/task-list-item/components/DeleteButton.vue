@@ -21,32 +21,37 @@ export default {
 <style scoped>
 .delete-button {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  user-select: none;
 }
 
 .delete-button__button {
-  min-width: 1rem;
-  min-height: 1rem;
+  max-width: 1.4rem;
+  max-height: 1.4rem;
+  min-width: 1.4rem;
+  min-height: 1.4rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: xx-large;
   user-select: none;
   cursor: pointer;
-  border: 0.2rem solid transparent;
+  border: 0 solid transparent;
   border-radius: 0.2rem;
   transition: background-color var(--transition-speed),
     color var(--transition-speed);
   background-color: transparent;
-  color: #474747;
   outline: none;
   user-select: none;
 }
 
+.delete-button__button:focus {
+  border: 0.2rem solid #DB545F;
+}
+
 .delete-button__button:focus, .delete-button__button:hover {
   background-color: #EEA3A3;
-  border: 0.2rem solid #DB545F;
-  color: white;
 }
 </style>
