@@ -15,7 +15,8 @@
 <script>
 import TasksList from './components/tasks-list/TasksList';
 import AddTaskButton from './components/add-task-button/AddTaskButton';
-import { loadTasks, saveTasks, getNewId } from './helpers/local-storage.helper'; 
+import { loadTasks, saveTasks, getNewId } from './helpers/local-storage.helper';
+import { setFocusOnNewTask } from './helpers/element-focus.helper'; 
 
 export default {
   name: 'App',
@@ -51,14 +52,7 @@ export default {
         done: false
       });
 
-      this.setFocusOnNewTask(newId);
-    },
-    setFocusOnNewTask(taskId) {
-      setTimeout(() => {
-        const addedTask = document.getElementById('task_id_' + taskId);
-        const textInput = addedTask.getElementsByClassName('editable-text__input')[0];
-        textInput.focus();
-      }, 50);
+      setFocusOnNewTask(newId);
     }
   }
 }

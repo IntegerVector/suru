@@ -10,7 +10,8 @@
     <EditableText
       class="task-list-item__text"
       v-model="taskText"
-      @update:modelValue="onChange">
+      @update:modelValue="onChange"
+      @keyup="onKeyUp">
     </EditableText>
     <DeleteButton
       class="task-list-item__delete-button"
@@ -23,6 +24,7 @@
 import Checkbox from './components/Checkbox';
 import EditableText from './components/EditableText';
 import DeleteButton from './components/DeleteButton';
+import { looseFocus } from '../../../../helpers/element-focus.helper';
 
 export default {
   name: 'TaskListItem',
@@ -58,6 +60,14 @@ export default {
     },
     onDeleted() {
       this.$emit('delete', this.task.id);
+    },
+    onKeyUp($event) {
+      const key = $event.key;
+      const code = $event.code;
+      
+      if (code === 'Escape' && key === code) {
+        looseFocus(this.task.id);
+      }
     }
   }
 }
