@@ -3,6 +3,7 @@
     <TasksList
       class="task-list"
       v-model="tasks"
+      :hoveredItemId="hoveredItemId"
       @update:modelValue="onChange">
     </TasksList>
     <AddTaskButton
@@ -26,7 +27,8 @@ export default {
   },
   data() {
     return {
-      tasks: []
+      tasks: [],
+      hoveredItemId: null
     }
   },
   created() {
@@ -37,6 +39,12 @@ export default {
       
       if (code === 'Enter' && key === code) {
         this.onNewTask();
+      }
+      if (code === 'ArrowUp' && key === code) {
+        this.onArrowUp();
+      }
+      if (code === 'ArrowDown' && key === code) {
+        this.onArrowDown();
       }
     }
   },
@@ -53,6 +61,32 @@ export default {
       });
 
       setFocusOnNewTask(newId);
+    },
+    onArrowUp(){
+      this.hoverNextItem('up');
+    },
+    onArrowDown() {
+      this.hoverNextItem('down');
+    },
+    hoverNextItem(direction){
+      if (!this.tasks.length) {
+        return;
+      }
+
+      if (!this.hoveredItemId) {
+        this.hoveredItemId = this.tasks[0].id;
+      } else {
+        const itemIndex = this.tasks.findIndex(task => {
+          return task.id === this.hoveredItemId;
+        });
+        if (itemIndex !== -1) {
+          const nextItemIndex = direction === 'up'
+            ? itemIndex - 1
+            : itemIndex + 1;
+          const nextItem = this.tasks[nextItemIndex];
+          this.hoveredItemId = nextItem && nextItem.id ? nextItem.id : this.hoveredItemId;
+        }
+      }
     }
   }
 }

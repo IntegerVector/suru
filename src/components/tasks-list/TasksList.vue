@@ -3,6 +3,7 @@
     <ul class="tasks-list__list">
       <li
         class="tasks-list__item"
+        :class="getStateClass(task.id)"
         v-for="task in tasks"
         :key="task.id">
         <TaskListItem
@@ -29,14 +30,20 @@ export default {
       default: function() {
         return [];
       }
-    }
+    },
+    hoveredItemId: Number
   },
   data() {
     return {
-      tasks: this.modelValue
+      tasks: this.modelValue,
     }
   },
   methods: {
+    getStateClass(taskId) {
+      return this.hoveredItemId === taskId
+        ? 'tasks-list__item--hover'
+        : '';
+    },
     onChange($event) {
       const taskId = $event.id === undefined
         ? -1
@@ -91,7 +98,7 @@ ul, li {
   height: 100%;
 }
 
-.tasks-list__item:hover {
+.tasks-list__item:hover, .tasks-list__item--hover {
   box-shadow: 0 0 0.2rem -0.1rem rgba(0,0,0,0.6);
 }
 </style>
