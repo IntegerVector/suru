@@ -3,7 +3,7 @@
     <input
       class="checkbox__hidden-input"
       type="checkbox"
-      :value="checked">
+      v-model="checked">
     <span
       v-if="!checked"
       class="checkbox__visible-input"
