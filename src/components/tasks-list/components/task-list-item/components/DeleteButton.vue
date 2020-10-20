@@ -41,7 +41,7 @@ export default {
   border: 0 solid transparent;
   border-radius: 0.2rem;
   transition: background-color var(--transition-speed),
-    color var(--transition-speed);
+    border var(--transition-speed);
   background-color: transparent;
   outline: none;
   user-select: none;

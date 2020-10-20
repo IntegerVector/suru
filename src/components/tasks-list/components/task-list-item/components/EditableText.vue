@@ -44,6 +44,7 @@ export default {
   border-radius: 0.1rem;
   border: 0.15rem solid transparent;
   outline: none;
+  transition: border var(--transition-speed);
 }
 
 .editable-text__input:focus {
