@@ -42,7 +42,7 @@ export default {
   font-size: var(--text-size--regular);
   font-family: var(--text-font--regular);
   border-radius: 0.1rem;
-  border: 0 solid transparent;
+  border: 0.15rem solid transparent;
   outline: none;
 }
 

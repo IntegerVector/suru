@@ -65,7 +65,6 @@ export default {
   width: 1rem;
   height: 1rem;
   user-select: none;
-  font-size: x-large;
 }
 
 .checkbox__hidden-input {
@@ -81,12 +80,10 @@ export default {
 }
 
 .checkbox__visible-input {
-  display: block;
   width: 1rem;
   height: 1rem;
   min-width: 1rem;
   min-height: 1rem;
-  text-align: center;
   cursor: pointer;
 }
 

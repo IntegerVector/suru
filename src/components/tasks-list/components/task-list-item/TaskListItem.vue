@@ -65,7 +65,7 @@ export default {
 
 <style scoped>
 .task-list-item {
-  margin: 0.25rem 0.5rem 0.25rem 1rem;
+  margin: 0.25rem 0.3rem 0.25rem 0.5rem;
   display: flex;
   align-items: center;
 }
