@@ -1,10 +1,6 @@
 <template>
   <main>
-    <TasksList
-      class="task-list"
-      v-model="tasks"
-      :hoveredItemId="hoveredItemId"
-      @update:modelValue="onChange">
+    <TasksList class="task-list">
     </TasksList>
     <AddTaskButton
       class="add-task-btn"
@@ -16,8 +12,10 @@
 <script>
 import TasksList from './components/tasks-list/TasksList';
 import AddTaskButton from './components/add-task-button/AddTaskButton';
-import { loadTasks, saveTasks, getNewId } from './helpers/local-storage.helper';
-import { setFocusOnNewTask } from './helpers/element-focus.helper'; 
+
+import { elementsFocusHelper } from './helpers/element-focus.helper'; 
+import { tasksHelper } from './helpers/tasks.helper';
+import { keyboardHelper } from './helpers/keyboard.helper';
 
 export default {
   name: 'App',
@@ -25,68 +23,34 @@ export default {
     TasksList,
     AddTaskButton
   },
-  data() {
-    return {
-      tasks: [],
-      hoveredItemId: null
-    }
-  },
   created() {
-    this.tasks = loadTasks();
-    document.onkeyup = ($event) => {
-      const key = $event.key;
-      const code = $event.code;
-      
-      if (code === 'Enter' && key === code) {
-        this.onNewTask();
-      }
-      if (code === 'ArrowUp' && key === code) {
-        this.onArrowUp();
-      }
-      if (code === 'ArrowDown' && key === code) {
-        this.onArrowDown();
-      }
-    }
+    keyboardHelper.startObserve();
+    keyboardHelper.onEnter$.subscribe(() => {
+      this.onNewTask();
+    });
+    keyboardHelper.onEscape$.subscribe(() => {
+      elementsFocusHelper.looseFocus();
+    });
+    keyboardHelper.onArrowUp$.subscribe(() => {
+      tasksHelper.selectUpperTask();
+    });
+    keyboardHelper.onArrowDown$.subscribe(() => {
+      tasksHelper.selectLowerTask();
+    });
+    keyboardHelper.onDelete$.subscribe(() => {
+      const selectedTask = tasksHelper.getSelectedTask();
+      tasksHelper.deleteTask(selectedTask.id);
+      tasksHelper.refresh();
+    });
+  },
+  unmounted() {
+    keyboardHelper.stopObserve();
   },
   methods: {
-    onChange() {
-      saveTasks(this.tasks);
-    },
     onNewTask() {
-      const newId = getNewId();
-      this.tasks.push({
-        id: newId,
-        text: '',
-        done: false
-      });
-
-      setFocusOnNewTask(newId);
-    },
-    onArrowUp(){
-      this.hoverNextItem('up');
-    },
-    onArrowDown() {
-      this.hoverNextItem('down');
-    },
-    hoverNextItem(direction){
-      if (!this.tasks.length) {
-        return;
-      }
-
-      if (!this.hoveredItemId) {
-        this.hoveredItemId = this.tasks[0].id;
-      } else {
-        const itemIndex = this.tasks.findIndex(task => {
-          return task.id === this.hoveredItemId;
-        });
-        if (itemIndex !== -1) {
-          const nextItemIndex = direction === 'up'
-            ? itemIndex - 1
-            : itemIndex + 1;
-          const nextItem = this.tasks[nextItemIndex];
-          this.hoveredItemId = nextItem && nextItem.id ? nextItem.id : this.hoveredItemId;
-        }
-      }
+      const newTaskId = tasksHelper.addNewTask();
+      tasksHelper.refresh();
+      elementsFocusHelper.setFocusOnTask(newTaskId);
     }
   }
 }
