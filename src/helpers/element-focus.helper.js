@@ -25,6 +25,7 @@ class ElementsFocusHelper {
       const addedTask = document.getElementById('task_id_' + this._focusedTaskId);
       const textInput = addedTask.getElementsByClassName('editable-text__input')[0];
       textInput.blur();
+      this._focusedTaskId = null;
       }, 50);
   }
 }

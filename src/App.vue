@@ -33,19 +33,26 @@ export default {
     });
     keyboardHelper.onArrowUp$.subscribe(() => {
       tasksHelper.selectUpperTask();
+      elementsFocusHelper.looseFocus();
     });
     keyboardHelper.onArrowDown$.subscribe(() => {
       tasksHelper.selectLowerTask();
+      elementsFocusHelper.looseFocus();
+    });
+    keyboardHelper.onSpace$.subscribe(() => {
+      const selectedTask = tasksHelper.getSelectedTask();
+
+      if (selectedTask) {
+        elementsFocusHelper.setFocusOnTask(selectedTask.id);
+      }
     });
     keyboardHelper.onDelete$.subscribe(() => {
       const selectedTask = tasksHelper.getSelectedTask();
 
-      if (!selectedTask) {
-        return;
+      if (selectedTask) {
+        tasksHelper.deleteTask(selectedTask.id);
+        tasksHelper.refresh();
       }
-
-      tasksHelper.deleteTask(selectedTask.id);
-      tasksHelper.refresh();
     });
   },
   unmounted() {

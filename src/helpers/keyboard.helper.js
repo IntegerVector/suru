@@ -5,6 +5,7 @@ class KeyBoard {
   onEnter$ = new Subject();
   onArrowUp$ = new Subject();
   onArrowDown$ = new Subject();
+  onSpace$ = new Subject();
   onDelete$ = new Subject();
   onEscape$ = new Subject();
   
@@ -36,6 +37,9 @@ class KeyBoard {
         break;
       case 'ArrowDown':
         this.onArrowDown$.next();
+        break;
+      case 'Space':
+        this.onSpace$.next();
         break;
       case 'Delete':
         this.onDelete$.next();
