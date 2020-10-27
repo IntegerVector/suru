@@ -31,22 +31,6 @@ class TasksHelper {
     this._init();
   }
 
-  _init() {
-    const tasks = localStorageHelper.loadData();
-    this._selectedTask = tasks.length
-      ? tasks[0]
-      : null;
-
-    this.tasks = tasks;
-  }
-
-  _getNewId() {
-    const lastId = +localStorageHelper.getConfig('lastId') || 1;
-    localStorageHelper.setConfig('lastId', lastId + 1 + '');
-
-    return lastId;
-  }
-
   saveTasks() {
 
     localStorageHelper.saveData(this._tasksArray);
@@ -130,6 +114,14 @@ class TasksHelper {
   }
 
   deleteTask(taskId) {
+    if (typeof taskId !== 'number') {
+      throw ErrorConstants.TASK_INVALID_ID;
+    }
+
+    if (this._selectedTask && this._selectedTask.id === taskId) {
+      this._moveSelectedTask();
+    }
+
     const itemIndex = this.getIndexById(taskId);
     this._tasksArray.splice(itemIndex, 1);
     return itemIndex;
@@ -162,6 +154,45 @@ class TasksHelper {
       const nextItemIndex = currentSelectedTaskIndex + 1;
       const nextItem = this._tasksArray[nextItemIndex];
       this.selectedTask = nextItem && nextItem.id ? nextItem : this._selectedTask;
+    }
+  }
+
+  _init() {
+    const tasks = localStorageHelper.loadData();
+
+    if (!this._selectedTask) {
+      this._selectedTask = tasks.length
+        ? tasks[0]
+        : null;
+    }
+
+    this.tasks = tasks;
+  }
+
+  _getNewId() {
+    const lastId = +localStorageHelper.getConfig('lastId') || 1;
+    localStorageHelper.setConfig('lastId', lastId + 1 + '');
+
+    return lastId;
+  }
+
+  _moveSelectedTask() {
+    const currentSelectedTaskIndex = this.getIndexById(this._selectedTask.id);
+    if (currentSelectedTaskIndex !== -1) {
+      const nextItem = this._tasksArray[currentSelectedTaskIndex + 1];
+      const prevItem = this._tasksArray[currentSelectedTaskIndex - 1];
+
+      if (nextItem && nextItem.id) {
+        this.selectedTask = nextItem;
+        return;
+      }
+
+      if (prevItem && prevItem.id) {
+        this.selectedTask = prevItem;
+        return;
+      }
+
+      this.selectedTask = null;
     }
   }
 }

@@ -9,34 +9,6 @@ export class LocalStorageHelper {
     this._init();
   }
 
-  _init() {
-    if (!window.localStorage) {
-      throw ErrorConstants.LOCAL_STORAGE_NOT_FOUND;
-    } else {
-      this._localStorage = window.localStorage;
-      this._loadConfigs();
-    }
-  }
-
-  _loadConfigs() {
-    const configsString = this._localStorage.getItem(SURU_CONFIG_ITEM);
-    try {
-      if (configsString && configsString !== 'undefined') {
-        this._configs = JSON.parse(configsString);
-      } else {
-        this._configs = {};
-      }
-    } catch (err) {
-      console.log(err);
-      throw ErrorConstants.CONFIGS_LOADING_ERROR;
-    }
-  }
-
-  _saveConfigs() {
-    const configsString = JSON.stringify(this._configs);
-    this._localStorage.setItem(SURU_CONFIG_ITEM, configsString);
-  }
-
   saveData(data) {
     if (!Array.isArray(data)) {
       throw ErrorConstants.INVALID_TYPE_ARRAY;
@@ -75,6 +47,34 @@ export class LocalStorageHelper {
     }
 
     return this._configs[key];
+  }
+
+  _init() {
+    if (!window.localStorage) {
+      throw ErrorConstants.LOCAL_STORAGE_NOT_FOUND;
+    } else {
+      this._localStorage = window.localStorage;
+      this._loadConfigs();
+    }
+  }
+
+  _loadConfigs() {
+    const configsString = this._localStorage.getItem(SURU_CONFIG_ITEM);
+    try {
+      if (configsString && configsString !== 'undefined') {
+        this._configs = JSON.parse(configsString);
+      } else {
+        this._configs = {};
+      }
+    } catch (err) {
+      console.log(err);
+      throw ErrorConstants.CONFIGS_LOADING_ERROR;
+    }
+  }
+
+  _saveConfigs() {
+    const configsString = JSON.stringify(this._configs);
+    this._localStorage.setItem(SURU_CONFIG_ITEM, configsString);
   }
 }
 

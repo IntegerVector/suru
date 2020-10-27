@@ -3,8 +3,8 @@
     <ul class="tasks-list__list">
       <li
         class="tasks-list__item"
-        :class="getStateClass(task.id)"
         v-for="task in tasks"
+        :class="getStateClass(task.id)"
         :key="task.id"
         @mouseenter="onMouseover(task)">
         <TaskListItem

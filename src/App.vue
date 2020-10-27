@@ -39,6 +39,11 @@ export default {
     });
     keyboardHelper.onDelete$.subscribe(() => {
       const selectedTask = tasksHelper.getSelectedTask();
+
+      if (!selectedTask) {
+        return;
+      }
+
       tasksHelper.deleteTask(selectedTask.id);
       tasksHelper.refresh();
     });
