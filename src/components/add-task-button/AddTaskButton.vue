@@ -48,6 +48,6 @@ export default {
 
 .add-task-section-container__icon {
   width: 1rem;
-  height: 1rem;;
+  height: 1rem;
 }
 </style>
