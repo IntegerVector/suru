@@ -3,6 +3,14 @@ class ElementsFocusHelper {
 
   constructor() {}
 
+  set focusedTaskId(taskId) {
+    this._focusedTaskId = taskId;
+  }
+
+  get focusedTaskId() {
+    return this._focusedTaskId;
+  }
+
   setFocusOnTask(taskId) {
     setTimeout(() => {
       const addedTask = document.getElementById('task_id_' + taskId);

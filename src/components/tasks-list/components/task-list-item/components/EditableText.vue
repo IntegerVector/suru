@@ -4,16 +4,20 @@
       class="editable-text__input"
       type="text"
       v-model="text"
+      @focus="onFocus"
       @change="emitChanges"
       @blur="emitChanges">
   </div>
 </template>
 
 <script>
+import { elementsFocusHelper } from '../../../../../helpers/element-focus.helper';
+
 export default {
   name: 'EditableText',
   props: {
-    modelValue: String
+    modelValue: String,
+    taskId: Number
   },
   data() {
     return {
@@ -24,6 +28,9 @@ export default {
   methods: {
     emitChanges() {
       this.$emit('update:modelValue', this.text);
+    },
+    onFocus() {
+      elementsFocusHelper.focusedTaskId = this.taskId;
     }
   }
 }

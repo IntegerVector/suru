@@ -10,6 +10,7 @@
     <EditableText
       class="task-list-item__text"
       v-model="taskText"
+      :taskId="task.id"
       @update:modelValue="onChange">
     </EditableText>
     <DeleteButton
