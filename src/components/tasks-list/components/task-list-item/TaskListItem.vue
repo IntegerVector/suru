@@ -14,7 +14,7 @@
       @update:modelValue="onChange">
     </EditableText>
     <DeleteButton
-      class="task-list-item__delete-button"
+      :class="getClass(task.id)"
       @deleted="onDeleted">
     </DeleteButton>
   </div>
@@ -24,6 +24,8 @@
 import Checkbox from './components/Checkbox';
 import EditableText from './components/EditableText';
 import DeleteButton from './components/DeleteButton';
+
+import { tasksHelper } from '../../../../helpers/tasks.helper';
 
 export default {
   name: 'TaskListItem',
@@ -42,10 +44,21 @@ export default {
   data() {
     return {
       taskStatus: this.task.done,
-      taskText: this.task.text
+      taskText: this.task.text,
+      selectedTask: tasksHelper.getSelectedTask()
     };
   },
+  created() {
+    tasksHelper.selectedTask.subscribe(task => {
+      this.selectedTask = task;
+    });
+  },
   methods: {
+    getClass(taskId) {
+      return this.selectedTask && this.selectedTask.id === taskId
+        ? 'task-list-item__delete-button'
+        : 'task-list-item__delete-button--hidden';
+    },
     onChange() {
       if (!this.taskText) {
         this.onDeleted();
@@ -82,6 +95,11 @@ export default {
 }
 
 .task-list-item__delete-button {
+  visibility: visible;
   margin-left: 0.5rem; 
+}
+
+.task-list-item__delete-button--hidden {
+  visibility: hidden;
 }
 </style>
