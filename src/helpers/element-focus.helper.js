@@ -76,6 +76,7 @@ class ElementsFocusHelper {
       deleteBtn.blur();
 
       this._focusedTaskId = null;
+      this._currentFocusedType = '';
       }, 50);
   }
 
