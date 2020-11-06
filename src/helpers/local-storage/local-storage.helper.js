@@ -67,7 +67,6 @@ export class LocalStorageHelper {
         this._configs = {};
       }
     } catch (err) {
-      console.log(err);
       throw ErrorConstants.CONFIGS_LOADING_ERROR;
     }
   }

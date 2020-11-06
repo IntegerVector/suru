@@ -40,10 +40,14 @@ export default {
       elementsFocusHelper.looseFocus();
     });
     keyboardHelper.onSpace$.subscribe(() => {
+      if (elementsFocusHelper._focusedTaskId) {
+        return;
+      }
+
       const selectedTask = tasksHelper.getSelectedTask();
 
       if (selectedTask) {
-        elementsFocusHelper.setFocusOnTask(selectedTask.id);
+        elementsFocusHelper.setFocusOnEditor(selectedTask.id);
       }
     });
     keyboardHelper.onDelete$.subscribe(() => {
@@ -54,6 +58,13 @@ export default {
         tasksHelper.refresh();
       }
     });
+    keyboardHelper.onTab$.subscribe(() => {
+      const selectedTask = tasksHelper.getSelectedTask();
+
+      if (selectedTask) {
+        elementsFocusHelper.focusNext(selectedTask.id);
+      }
+    });
   },
   unmounted() {
     keyboardHelper.stopObserve();
@@ -62,7 +73,7 @@ export default {
     onNewTask() {
       const newTaskId = tasksHelper.addNewTask();
       tasksHelper.refresh();
-      elementsFocusHelper.setFocusOnTask(newTaskId);
+      elementsFocusHelper.setFocusOnEditor(newTaskId);
     }
   }
 }
