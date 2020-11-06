@@ -9,8 +9,13 @@ class KeyBoard {
   onSpace$ = new Subject();
   onDelete$ = new Subject();
   onEscape$ = new Subject();
+  onShiftTab$ = new Subject();
   
   _onKeydown$ = null;
+
+  _nextKeySubject$ = new Subject();
+  _nextKeySubscription = null;
+  _nextKeyCode = null;
 
   constructor() {}
 
@@ -29,36 +34,75 @@ class KeyBoard {
   }
 
   _filter($event) {
+    if (this._handleNextKeyWaiting($event)) {
+      return;
+    }
+
     switch ($event.code) {
       case 'Tab':
-        $event.preventDefault();
+        this._prevent($event);
         this.onTab$.next();
         break;
+      case 'ShiftLeft':
+        this._prevent($event);
+        this._nextKeySubscription = this._listenForNextKey('Tab').subscribe(() => {
+          this.onShiftTab$.next();
+          this._nextKeySubscription.unsubscribe();
+        });
+        break;
+      case 'ShiftRight':
+        this._prevent($event);
+        this._nextKeySubscription = this._listenForNextKey('Tab').subscribe(() => {
+          this.onShiftTab$.next();
+          this._nextKeySubscription.unsubscribe();
+        });
+        break;
       case 'Enter':
-        $event.preventDefault();
+        this._prevent($event);
         this.onEnter$.next();
         break;
       case 'ArrowUp':
-        $event.preventDefault();
+        this._prevent($event);
         this.onArrowUp$.next();
         break;
       case 'ArrowDown':
-        $event.preventDefault();
+        this._prevent($event);
         this.onArrowDown$.next();
         break;
       case 'Space':
         this.onSpace$.next();
         break;
       case 'Delete':
-        $event.preventDefault();
+        this._prevent($event);
         this.onDelete$.next();
         break;
       case 'Escape':
-        $event.preventDefault();
+        this._prevent($event);
         this.onEscape$.next();
         break;
       default: break;
     }
+  }
+
+  _listenForNextKey(code) {
+    this._nextKeyCode = code;
+    return this._nextKeySubject$
+  }
+
+  _handleNextKeyWaiting($event) {
+    if (this._nextKeyCode === $event.code) {
+      this._nextKeyCode = null;
+      this._prevent($event);
+      this._nextKeySubject$.next();
+      return true;
+    }
+
+    this._nextKeyCode = null;
+    return false;
+  }
+
+  _prevent($event) {
+    $event.preventDefault();
   }
 }
 

@@ -65,6 +65,13 @@ export default {
         elementsFocusHelper.focusNext(selectedTask.id);
       }
     });
+    keyboardHelper.onShiftTab$.subscribe(() => {
+      const selectedTask = tasksHelper.getSelectedTask();
+
+      if (selectedTask) {
+        elementsFocusHelper.focusPrev(selectedTask.id);
+      }
+    });
   },
   unmounted() {
     keyboardHelper.stopObserve();
