@@ -68,9 +68,8 @@ export default {
 }
 
 .checkbox__hidden-input {
-  display: block;
-  visibility: unset;
-  width: 1px;
+  visibility: visible;
+  opacity: 0;
   height: 0;
 }
 
