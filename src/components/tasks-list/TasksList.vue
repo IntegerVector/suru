@@ -70,8 +70,24 @@ ul, li {
 .tasks-list__list {
   display: flex;
   flex-direction: column;
-  overflow: auto;
+  overflow-y: auto;
   height: 100%;
+
+  background:
+    linear-gradient(white 30%, rgba(255,255,255,0)),
+    linear-gradient(rgba(255,255,255,0), white 70%) 0 100%,
+    radial-gradient(50% 0, farthest-side, rgba(0,0,0,.2), rgba(0,0,0,0)),
+    radial-gradient(50% 100%,farthest-side, rgba(0,0,0,.2), rgba(0,0,0,0)) 0 100%;
+  background:
+    linear-gradient(white 30%, rgba(255,255,255,0)),
+    linear-gradient(rgba(255,255,255,0), white 70%) 0 100%,    
+    radial-gradient(farthest-side at 50% 0, rgba(0,0,0,.2), rgba(0,0,0,0)),
+    radial-gradient(farthest-side at 50% 100%, rgba(0,0,0,.2), rgba(0,0,0,0)) 0 100%;
+
+  background-repeat: no-repeat;
+  background-color: var(--background-color);
+  background-size: 100% 5rem, 100% 5rem, 100% 0.25rem, 100% 0.25rem;
+  background-attachment: local, local, scroll, scroll;
 }
 
 .tasks-list__item--hover {

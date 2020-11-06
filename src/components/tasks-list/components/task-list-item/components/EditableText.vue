@@ -52,6 +52,7 @@ export default {
   border: 0.15rem solid transparent;
   outline: none;
   transition: border var(--transition-speed);
+  background-color: transparent;
 }
 
 .editable-text__input:focus {
