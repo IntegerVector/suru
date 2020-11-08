@@ -101,6 +101,8 @@ export default {
   --transition-speed: 200ms;
   --text-color: #1b1b1b;
   --text-color--light: #f2f2f2ff;
+  --text-color--not-important: #B7B5CF;
+  --text-color--not-important-light: #c9c9c9;
   --text-font--regular: Arial;
   --text-size--regular: 1rem;
 }

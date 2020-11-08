@@ -1,6 +1,14 @@
 <template>
   <section class="tasks-list">
-    <ul class="tasks-list__list">
+    <div
+      class="tasks-list__empty-label-text"
+      v-if="!tasks.length">
+      <p>No tasks</p>
+      <p>Add new task by pressing '+' button</p>
+    </div>
+    <ul
+      class="tasks-list__list"
+      v-if="tasks.length">
       <li
         class="tasks-list__item"
         v-for="task in tasks"
@@ -65,6 +73,15 @@ export default {
 <style scoped>
 ul, li {
   list-style-type: none;
+}
+
+.tasks-list__empty-label-text {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--text-color--not-important);
 }
 
 .tasks-list__list {
