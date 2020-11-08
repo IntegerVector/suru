@@ -3,7 +3,10 @@
     class="add-task-section-container"
     title="Add task button"
     @click="$emit('clicked')">
-    + New task
+    <img
+      src="/icons/plus.svg"
+      alt="+"
+      class="add-task-section-container__icon">
   </section>
 </template>
 
@@ -18,18 +21,19 @@ export default {
 
 <style scoped>
 .add-task-section-container{
-  padding: 0.5rem 1rem 0.5rem 1rem;
+  width: 2.5rem;
+  height: 2.5rem;
   display: flex;
-  cursor: pointer;
+  justify-content: center;
   align-items: center;
-  font-size: x-large;
+  cursor: pointer;
   user-select: none;
   outline: none;
-  color: white;
-  border-radius: 5rem;
+  color: var(--text-color--light);
+  border-radius: 50%;
   border: 1px solid transparent;
   background-color: var(--main-color--active);
-  box-shadow: 0 0.1rem 0.2rem 0 rgba(0, 0, 0, 0.8);
+  box-shadow: 0 0.1rem 0.2rem 0 rgba(0, 0, 0, 0.5);
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
   transition: background-color var(--transition-speed);
 }
@@ -40,5 +44,10 @@ export default {
 
 .add-task-section-container:active {
   background-color: var(--main-color--active);
+}
+
+.add-task-section-container__icon {
+  width: 1rem;
+  height: 1rem;
 }
 </style>

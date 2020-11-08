@@ -1,10 +1,20 @@
 <template>
   <section class="tasks-list">
-    <ul class="tasks-list__list">
+    <div
+      class="tasks-list__empty-label-text"
+      v-if="!tasks.length">
+      <p>No tasks</p>
+      <p>Add new task by pressing '+' button</p>
+    </div>
+    <ul
+      class="tasks-list__list"
+      v-if="tasks.length">
       <li
         class="tasks-list__item"
         v-for="task in tasks"
-        :key="task.id">
+        :class="getStateClass(task.id)"
+        :key="task.id"
+        @mouseenter="onMouseover(task)">
         <TaskListItem
           :task="task"
           @change="onChange($event)"
@@ -18,62 +28,43 @@
 <script>
 import TaskListItem from './components/task-list-item/TaskListItem';
 
+import { tasksHelper } from '../../helpers/tasks.helper';
+
 export default {
   name: 'TasksList',
   components: {
     TaskListItem
   },
-  props: {
-    modelValue: {
-      type: Array,
-      default: function() {
-        return [];
-      }
-    }
-  },
   data() {
     return {
-      tasks: this.modelValue
+      tasks: tasksHelper.getAllTasks(),
+      selectedTask: tasksHelper.getSelectedTask()
     }
   },
+  created() {
+    tasksHelper.tasks.subscribe(tasks => {
+      this.tasks = tasks;
+    });
+    tasksHelper.selectedTask.subscribe(task => {
+      this.selectedTask = task;
+    });
+  },
   methods: {
+    getStateClass(taskId) {
+      return this.selectedTask && this.selectedTask.id === taskId
+        ? 'tasks-list__item--hover'
+        : '';
+    },
     onChange($event) {
-      const taskId = $event.id === undefined
-        ? -1
-        : $event.id;
-
-      this.tasks = this.tasks.map(task => {
-        return task.id === taskId
-          ? {
-              id: task.id,
-              text: $event.text,
-              done: $event.done
-            }
-          : task;
-      });
-
-      this.emitChanges();
+      tasksHelper.editTask($event);
+      tasksHelper.refresh();
     },
     onDelete($event) {
-      const taskId = $event;
-
-      if (taskId === undefined) {
-        return;
-      }
-
-      const taskIndex = this.tasks.findIndex(task => {
-        return task.id === taskId;
-      });
-
-      if (taskIndex === -1) {
-        return;
-      }
-
-      this.tasks.splice(taskIndex, 1);
-      this.emitChanges();
+      tasksHelper.deleteTask($event);
+      tasksHelper.refresh();
     },
-    emitChanges() {
-      this.$emit('update:modelValue', this.tasks);
+    onMouseover($event) {
+      tasksHelper.selectedTask = $event;
     }
   }
 }
@@ -84,14 +75,39 @@ ul, li {
   list-style-type: none;
 }
 
+.tasks-list__empty-label-text {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--text-color--not-important);
+}
+
 .tasks-list__list {
   display: flex;
   flex-direction: column;
-  overflow: auto;
+  overflow-y: auto;
   height: 100%;
+
+  background:
+    linear-gradient(white 30%, rgba(255,255,255,0)),
+    linear-gradient(rgba(255,255,255,0), white 70%) 0 100%,
+    radial-gradient(50% 0, farthest-side, rgba(0,0,0,.2), rgba(0,0,0,0)),
+    radial-gradient(50% 100%,farthest-side, rgba(0,0,0,.2), rgba(0,0,0,0)) 0 100%;
+  background:
+    linear-gradient(white 30%, rgba(255,255,255,0)),
+    linear-gradient(rgba(255,255,255,0), white 70%) 0 100%,    
+    radial-gradient(farthest-side at 50% 0, rgba(0,0,0,.2), rgba(0,0,0,0)),
+    radial-gradient(farthest-side at 50% 100%, rgba(0,0,0,.2), rgba(0,0,0,0)) 0 100%;
+
+  background-repeat: no-repeat;
+  background-color: var(--background-color);
+  background-size: 100% 5rem, 100% 5rem, 100% 0.25rem, 100% 0.25rem;
+  background-attachment: local, local, scroll, scroll;
 }
 
-.tasks-list__item:hover {
-  box-shadow: 0 0.2rem 0.1rem -0.1rem rgba(0,0,0,0.2);
+.tasks-list__item--hover {
+  box-shadow: 0 0 0.2rem -0.1rem rgba(0,0,0,0.6);
 }
 </style>

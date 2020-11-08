@@ -3,14 +3,23 @@
     <input
       class="checkbox__hidden-input"
       type="checkbox"
-      :value="checked">
+      v-model="checked">
     <span
+      v-if="!checked"
       class="checkbox__visible-input"
       :class="getStateClass()"
       :title="getTitle()"
       @click="onClicked()">
-      {{ checked ? '✔' : '&nbsp;' }}
+      &nbsp;
     </span>
+    <img
+      v-if="checked"
+      src="/icons/checked.svg"
+      alt="done"
+      class="checkbox__visible-input"
+      :class="getStateClass()"
+      :title="getTitle()"
+      @click="onClicked()">
   </div>
 </template>
 
@@ -56,13 +65,11 @@ export default {
   width: 1rem;
   height: 1rem;
   user-select: none;
-  font-size: x-large;
 }
 
 .checkbox__hidden-input {
-  display: block;
-  visibility: unset;
-  width: 1px;
+  visibility: visible;
+  opacity: 0;
   height: 0;
 }
 
@@ -72,12 +79,10 @@ export default {
 }
 
 .checkbox__visible-input {
-  display: block;
   width: 1rem;
   height: 1rem;
   min-width: 1rem;
   min-height: 1rem;
-  text-align: center;
   cursor: pointer;
 }
 
@@ -93,6 +98,11 @@ export default {
 .checkbox--checked {
   background-color: var(--main-color--active);
   border-color: var(--main-color--active);
+}
+
+.checkbox--checked:hover {
+  border-color: var(--main-color--hover);
+  background-color: var(--main-color--hover);
 }
 
 .checkbox--unchecked {

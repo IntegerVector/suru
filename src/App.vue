@@ -1,9 +1,6 @@
 <template>
   <main>
-    <TasksList
-      class="task-list"
-      v-model="tasks"
-      @update:modelValue="onChange">
+    <TasksList class="task-list">
     </TasksList>
     <AddTaskButton
       class="add-task-btn"
@@ -15,7 +12,10 @@
 <script>
 import TasksList from './components/tasks-list/TasksList';
 import AddTaskButton from './components/add-task-button/AddTaskButton';
-import { loadTasks, saveTasks, getNewId } from './helpers/local-storage.helper'; 
+
+import { elementsFocusHelper } from './helpers/element-focus.helper'; 
+import { tasksHelper } from './helpers/tasks.helper';
+import { keyboardHelper } from './helpers/keyboard.helper';
 
 export default {
   name: 'App',
@@ -23,42 +23,64 @@ export default {
     TasksList,
     AddTaskButton
   },
-  data() {
-    return {
-      tasks: []
-    }
-  },
   created() {
-    this.tasks = loadTasks();
-    document.onkeyup = ($event) => {
-      const key = $event.key;
-      const code = $event.code;
-      
-      if (code === 'Enter' && key === code) {
-        this.onNewTask();
+    keyboardHelper.startObserve();
+    keyboardHelper.onEnter$.subscribe(() => {
+      this.onNewTask();
+    });
+    keyboardHelper.onEscape$.subscribe(() => {
+      elementsFocusHelper.looseFocus();
+    });
+    keyboardHelper.onArrowUp$.subscribe(() => {
+      tasksHelper.selectUpperTask();
+      elementsFocusHelper.looseFocus();
+    });
+    keyboardHelper.onArrowDown$.subscribe(() => {
+      tasksHelper.selectLowerTask();
+      elementsFocusHelper.looseFocus();
+    });
+    keyboardHelper.onSpace$.subscribe(() => {
+      if (elementsFocusHelper._focusedTaskId) {
+        return;
       }
-    }
+
+      const selectedTask = tasksHelper.getSelectedTask();
+
+      if (selectedTask) {
+        elementsFocusHelper.setFocusOnEditor(selectedTask.id);
+      }
+    });
+    keyboardHelper.onDelete$.subscribe(() => {
+      const selectedTask = tasksHelper.getSelectedTask();
+
+      if (selectedTask) {
+        tasksHelper.deleteTask(selectedTask.id);
+        tasksHelper.refresh();
+      }
+    });
+    keyboardHelper.onTab$.subscribe(() => {
+      const selectedTask = tasksHelper.getSelectedTask();
+
+      if (selectedTask) {
+        elementsFocusHelper.focusNext(selectedTask.id);
+      }
+    });
+    keyboardHelper.onShiftTab$.subscribe(() => {
+      const selectedTask = tasksHelper.getSelectedTask();
+
+      if (selectedTask) {
+        elementsFocusHelper.focusPrev(selectedTask.id);
+      }
+    });
+  },
+  unmounted() {
+    keyboardHelper.stopObserve();
   },
   methods: {
-    onChange() {
-      saveTasks(this.tasks);
-    },
     onNewTask() {
-      const newId = getNewId();
-      this.tasks.push({
-        id: newId,
-        text: '',
-        done: false
-      });
-
-      this.setFocusOnNewTask(newId);
-    },
-    setFocusOnNewTask(taskId) {
-      setTimeout(() => {
-        const addedTask = document.getElementById('task_id_' + taskId);
-        const textInput = addedTask.getElementsByClassName('editable-text__input')[0];
-        textInput.focus();
-      }, 50);
+      const newTaskId = tasksHelper.addNewTask();
+      tasksHelper.refresh();
+      elementsFocusHelper.setFocusOnEditor(newTaskId);
     }
   }
 }
@@ -68,15 +90,19 @@ export default {
 /* Global variables */
 :root {
   font-size: x-large;
-  background-color: white;
-  --focus-color: #008000;
+  --background-color: white;
+  --background-color--hover: #DDDDDD;
+  --focus-color: #239D72;
+  --focus-color--light: #9CADBC;
   --focus-speed: 20ms;
   --main-color--active: #88c588;
-  --main-color--hover: #5faf5f;
-  --main-color--inactive: #dddddd;
+  --main-color--hover: #00B17B;
+  --main-color--inactive: #d2d7e0;
   --transition-speed: 200ms;
   --text-color: #1b1b1b;
-  --text-color--light: #fcfcfc;
+  --text-color--light: #f2f2f2ff;
+  --text-color--not-important: #B7B5CF;
+  --text-color--not-important-light: #c9c9c9;
   --text-font--regular: Arial;
   --text-size--regular: 1rem;
 }
@@ -93,11 +119,12 @@ export default {
 html, body, main {
   width: 100%;
   height: 100%;
+  background-color: var(--background-color);
 }
 
 /* Scroll */
 ::-webkit-scrollbar {
-  width: 0.3rem;
+  width: 0.25rem;
 }
 
 ::-webkit-scrollbar-track {
@@ -105,7 +132,7 @@ html, body, main {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cfcfcf;
+  background: #c1c1c1c1;
 }
 
 ::-webkit-scrollbar-thumb:hover {
