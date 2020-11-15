@@ -162,7 +162,6 @@ class TasksHelper {
   _init() {
     const tasks = localStorageHelper.loadData();
 
-    this._selectedTask = null
     this.tasks = tasks;
   }
 
