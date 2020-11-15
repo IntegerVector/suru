@@ -8,6 +8,7 @@
     </div>
     <ul
       class="tasks-list__list"
+      @mouseleave="onMouseLeave()"
       v-if="tasks.length">
       <li
         class="tasks-list__item"
@@ -65,6 +66,9 @@ export default {
     },
     onMouseover($event) {
       tasksHelper.selectedTask = $event;
+    },
+    onMouseLeave() {
+      tasksHelper.selectedTask = null;
     }
   }
 }

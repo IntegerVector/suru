@@ -29,7 +29,13 @@ export default {
       this.onNewTask();
     });
     keyboardHelper.onEscape$.subscribe(() => {
-      elementsFocusHelper.looseFocus();
+      if (elementsFocusHelper.focusedTaskId) {
+        elementsFocusHelper.looseFocus();
+        return;
+      }
+      if (tasksHelper.selectedTask) {
+        tasksHelper.selectedTask = null;
+      }
     });
     keyboardHelper.onArrowUp$.subscribe(() => {
       tasksHelper.selectUpperTask();
@@ -81,6 +87,9 @@ export default {
       const newTaskId = tasksHelper.addNewTask();
       tasksHelper.refresh();
       elementsFocusHelper.setFocusOnEditor(newTaskId);
+
+      const task = tasksHelper.getTaskById(newTaskId);
+      tasksHelper.selectedTask = task; 
     }
   }
 }
