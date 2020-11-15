@@ -4,7 +4,7 @@
       class="tasks-list__empty-label-text"
       v-if="!tasks.length">
       <p>No tasks</p>
-      <p>Add new task by pressing '+' button</p>
+      <p>Add new by pressing '+'</p>
     </div>
     <ul
       class="tasks-list__list"
