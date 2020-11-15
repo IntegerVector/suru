@@ -3,7 +3,7 @@ import { ErrorConstants } from '../constants/errors.constants';
 class ElementsFocusHelper {
   _focusedTaskId = null;
   _currentFocusedType = '';
-  _focusableElementsTypes = ['checkbox', 'editor', 'deleteBtn',];
+  _focusableElementsTypes = ['checkbox', 'editor'];
 
   constructor() {}
 
@@ -49,18 +49,6 @@ class ElementsFocusHelper {
       }, 50);
   }
 
-  setFocusOnDeleteBtn(taskId) {
-    setTimeout(() => {
-      const deleteBtn = this._getDeleteBtn(taskId);
-
-      if (deleteBtn) {
-        this._focusedTaskId = taskId;
-      }
-
-      deleteBtn.focus();
-      }, 50);
-  }
-
   looseFocus() {
     if (!this._focusedTaskId) {
       return;
@@ -69,13 +57,15 @@ class ElementsFocusHelper {
     setTimeout(() => {
       const checkbox = this._getCheckbox(this._focusedTaskId);
       const editor = this._getEditor(this._focusedTaskId);
-      const deleteBtn = this._getDeleteBtn(this._focusedTaskId);
-
-      checkbox.blur();
-      editor.blur();
-      deleteBtn.blur();
-
       this._focusedTaskId = null;
+
+      if (checkbox) {
+        checkbox.blur();
+      }
+      if (editor) {
+        editor.blur();
+      }
+
       this._currentFocusedType = '';
       }, 50);
   }
@@ -90,17 +80,16 @@ class ElementsFocusHelper {
 
   _getCheckbox(taskId) {
     const task = this._getTaskElement(taskId);
-    return task.getElementsByClassName('checkbox__hidden-input')[0];
+    if (task) {
+      return task.getElementsByClassName('checkbox__hidden-input')[0];
+    }
   }
 
   _getEditor(taskId) {
     const task = this._getTaskElement(taskId);
-    return task.getElementsByClassName('editable-text__input')[0];
-  }
-
-  _getDeleteBtn(taskId) {
-    const task = this._getTaskElement(taskId);
-    return task.getElementsByClassName('delete-button__button')[0];
+    if (task) {
+      return task.getElementsByClassName('editable-text__input')[0];
+    }
   }
 
   _getNextElementType() {
@@ -123,18 +112,11 @@ class ElementsFocusHelper {
 
   _setFocusByType(taskId, type) {
     switch (type) {
-      case 'checkbox':
-        this._currentFocusedType = 'checkbox';
-        this.setFocusOnCheckbox(taskId);
-        break;
       case 'editor':
         this._currentFocusedType = 'editor';
         this.setFocusOnEditor(taskId);
         break;
-      case 'deleteBtn':
-        this._currentFocusedType = 'deleteBtn';
-        this.setFocusOnDeleteBtn(taskId);
-        break;
+      case 'checkbox':
       default:
         this._currentFocusedType = 'checkbox';
         this.setFocusOnCheckbox(taskId);

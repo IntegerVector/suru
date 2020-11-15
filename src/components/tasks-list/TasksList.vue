@@ -30,6 +30,7 @@
 import TaskListItem from './components/task-list-item/TaskListItem';
 
 import { tasksHelper } from '../../helpers/tasks.helper';
+import { elementsFocusHelper } from '../../helpers/element-focus.helper'; 
 
 export default {
   name: 'TasksList',
@@ -61,6 +62,7 @@ export default {
       tasksHelper.refresh();
     },
     onDelete($event) {
+      elementsFocusHelper.looseFocus();
       tasksHelper.deleteTask($event);
       tasksHelper.refresh();
     },

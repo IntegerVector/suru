@@ -1,5 +1,6 @@
 <template>
-  <main>
+  <main
+    @contextmenu="onContextMenu($event)">
     <TasksList class="task-list">
     </TasksList>
     <AddTaskButton
@@ -38,12 +39,12 @@ export default {
       }
     });
     keyboardHelper.onArrowUp$.subscribe(() => {
-      tasksHelper.selectUpperTask();
       elementsFocusHelper.looseFocus();
+      tasksHelper.selectUpperTask();
     });
     keyboardHelper.onArrowDown$.subscribe(() => {
-      tasksHelper.selectLowerTask();
       elementsFocusHelper.looseFocus();
+      tasksHelper.selectLowerTask();
     });
     keyboardHelper.onSpace$.subscribe(() => {
       const selectedTask = tasksHelper.getSelectedTask();
@@ -53,7 +54,7 @@ export default {
           ...selectedTask,
           done: true
         });
-        tasksHelper.saveTasks();
+        tasksHelper.refresh();
 
         return;
       }
@@ -63,6 +64,7 @@ export default {
       }
     });
     keyboardHelper.onDelete$.subscribe(() => {
+      elementsFocusHelper.looseFocus();
       const selectedTask = tasksHelper.getSelectedTask();
 
       if (selectedTask) {
@@ -83,12 +85,18 @@ export default {
   },
   methods: {
     onNewTask() {
+      elementsFocusHelper.looseFocus();
+      tasksHelper.selectedTask = null;
+
       const newTaskId = tasksHelper.addNewTask();
       tasksHelper.refresh();
-      elementsFocusHelper.setFocusOnEditor(newTaskId);
 
       const task = tasksHelper.getTaskById(newTaskId);
+      elementsFocusHelper.setFocusOnEditor(newTaskId);
       tasksHelper.selectedTask = task; 
+    },
+    onContextMenu($event) {
+      $event.preventDefault();
     }
   }
 }
@@ -99,7 +107,7 @@ export default {
 :root {
   font-size: x-large;
   --background-color: white;
-  --background-color--hover: #DDDDDD;
+  --background-color--hover: #e9e9e9;
   --focus-color: #239D72;
   --focus-color--light: #9CADBC;
   --focus-speed: 20ms;
