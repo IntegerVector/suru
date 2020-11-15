@@ -32,7 +32,6 @@ class TasksHelper {
   }
 
   saveTasks() {
-
     localStorageHelper.saveData(this._tasksArray);
   }
 

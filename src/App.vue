@@ -46,11 +46,17 @@ export default {
       elementsFocusHelper.looseFocus();
     });
     keyboardHelper.onSpace$.subscribe(() => {
+      const selectedTask = tasksHelper.getSelectedTask();
+
       if (elementsFocusHelper._focusedTaskId) {
+        tasksHelper.editTask({
+          ...selectedTask,
+          done: true
+        });
+        tasksHelper.saveTasks();
+
         return;
       }
-
-      const selectedTask = tasksHelper.getSelectedTask();
 
       if (selectedTask) {
         elementsFocusHelper.setFocusOnEditor(selectedTask.id);
