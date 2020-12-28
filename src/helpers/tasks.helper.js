@@ -32,7 +32,6 @@ class TasksHelper {
   }
 
   saveTasks() {
-
     localStorageHelper.saveData(this._tasksArray);
   }
 
@@ -133,6 +132,7 @@ class TasksHelper {
 
   selectUpperTask() {
     if (!this._selectedTask) {
+      this._moveSelectedTask();
       return;
     }
 
@@ -146,6 +146,7 @@ class TasksHelper {
 
   selectLowerTask() {
     if (!this._selectedTask) {
+      this._moveSelectedTask();
       return;
     }
 
@@ -160,12 +161,6 @@ class TasksHelper {
   _init() {
     const tasks = localStorageHelper.loadData();
 
-    if (!this._selectedTask) {
-      this._selectedTask = tasks.length
-        ? tasks[0]
-        : null;
-    }
-
     this.tasks = tasks;
   }
 
@@ -177,6 +172,14 @@ class TasksHelper {
   }
 
   _moveSelectedTask() {
+    if (!this._selectedTask) {
+      this.selectedTask = this._tasksArray.length
+        ? this._tasksArray[0]
+        : null;
+
+      return;
+    }
+
     const currentSelectedTaskIndex = this.getIndexById(this._selectedTask.id);
     if (currentSelectedTaskIndex !== -1) {
       const nextItem = this._tasksArray[currentSelectedTaskIndex + 1];

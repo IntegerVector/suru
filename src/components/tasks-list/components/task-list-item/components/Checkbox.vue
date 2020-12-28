@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  name: 'checkbox',
+  name: 'Checkbox',
   props: {
     modelValue: {
       type: Boolean,

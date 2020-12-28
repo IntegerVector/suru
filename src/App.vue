@@ -1,5 +1,6 @@
 <template>
-  <main>
+  <main
+    @contextmenu="onContextMenu($event)">
     <TasksList class="task-list">
     </TasksList>
     <AddTaskButton
@@ -29,28 +30,41 @@ export default {
       this.onNewTask();
     });
     keyboardHelper.onEscape$.subscribe(() => {
-      elementsFocusHelper.looseFocus();
-    });
-    keyboardHelper.onArrowUp$.subscribe(() => {
-      tasksHelper.selectUpperTask();
-      elementsFocusHelper.looseFocus();
-    });
-    keyboardHelper.onArrowDown$.subscribe(() => {
-      tasksHelper.selectLowerTask();
-      elementsFocusHelper.looseFocus();
-    });
-    keyboardHelper.onSpace$.subscribe(() => {
-      if (elementsFocusHelper._focusedTaskId) {
+      if (elementsFocusHelper.focusedTaskId) {
+        elementsFocusHelper.looseFocus();
         return;
       }
-
+      if (tasksHelper.selectedTask) {
+        tasksHelper.selectedTask = null;
+      }
+    });
+    keyboardHelper.onArrowUp$.subscribe(() => {
+      elementsFocusHelper.looseFocus();
+      tasksHelper.selectUpperTask();
+    });
+    keyboardHelper.onArrowDown$.subscribe(() => {
+      elementsFocusHelper.looseFocus();
+      tasksHelper.selectLowerTask();
+    });
+    keyboardHelper.onSpace$.subscribe(() => {
       const selectedTask = tasksHelper.getSelectedTask();
+
+      if (elementsFocusHelper._focusedTaskId) {
+        tasksHelper.editTask({
+          ...selectedTask,
+          done: true
+        });
+        tasksHelper.refresh();
+
+        return;
+      }
 
       if (selectedTask) {
         elementsFocusHelper.setFocusOnEditor(selectedTask.id);
       }
     });
     keyboardHelper.onDelete$.subscribe(() => {
+      elementsFocusHelper.looseFocus();
       const selectedTask = tasksHelper.getSelectedTask();
 
       if (selectedTask) {
@@ -65,22 +79,24 @@ export default {
         elementsFocusHelper.focusNext(selectedTask.id);
       }
     });
-    keyboardHelper.onShiftTab$.subscribe(() => {
-      const selectedTask = tasksHelper.getSelectedTask();
-
-      if (selectedTask) {
-        elementsFocusHelper.focusPrev(selectedTask.id);
-      }
-    });
   },
   unmounted() {
     keyboardHelper.stopObserve();
   },
   methods: {
     onNewTask() {
+      elementsFocusHelper.looseFocus();
+      tasksHelper.selectedTask = null;
+
       const newTaskId = tasksHelper.addNewTask();
       tasksHelper.refresh();
+
+      const task = tasksHelper.getTaskById(newTaskId);
       elementsFocusHelper.setFocusOnEditor(newTaskId);
+      tasksHelper.selectedTask = task; 
+    },
+    onContextMenu($event) {
+      $event.preventDefault();
     }
   }
 }
@@ -91,7 +107,7 @@ export default {
 :root {
   font-size: x-large;
   --background-color: white;
-  --background-color--hover: #DDDDDD;
+  --background-color--hover: #e9e9e9;
   --focus-color: #239D72;
   --focus-color--light: #9CADBC;
   --focus-speed: 20ms;

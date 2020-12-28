@@ -8,6 +8,7 @@
     </div>
     <ul
       class="tasks-list__list"
+      @mouseleave="onMouseLeave()"
       v-if="tasks.length">
       <li
         class="tasks-list__item"
@@ -29,6 +30,7 @@
 import TaskListItem from './components/task-list-item/TaskListItem';
 
 import { tasksHelper } from '../../helpers/tasks.helper';
+import { elementsFocusHelper } from '../../helpers/element-focus.helper'; 
 
 export default {
   name: 'TasksList',
@@ -60,11 +62,15 @@ export default {
       tasksHelper.refresh();
     },
     onDelete($event) {
+      elementsFocusHelper.looseFocus();
       tasksHelper.deleteTask($event);
       tasksHelper.refresh();
     },
     onMouseover($event) {
       tasksHelper.selectedTask = $event;
+    },
+    onMouseLeave() {
+      tasksHelper.selectedTask = null;
     }
   }
 }

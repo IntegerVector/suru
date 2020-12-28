@@ -1,38 +1,40 @@
 <template>
   <div
     :id="'task_id_'+task.id"
+    @contextmenu="onContextMenu($event)"
     class="task-list-item">
     <Checkbox
       class="task-list-item__checkbox"
       v-model="taskStatus"
-      @update:modelValue="onChange">
+      @update:modelValue="onChange()">
     </Checkbox>
     <EditableText
       class="task-list-item__text"
       v-model="taskText"
       :taskId="task.id"
-      @update:modelValue="onChange">
+      @update:modelValue="onChange()">
     </EditableText>
-    <DeleteButton
-      :class="getClass(task.id)"
-      @deleted="onDeleted">
-    </DeleteButton>
+    <ContextMenu
+      ref="contextMenu">
+      <li
+        @click="onDeleted()">
+        Delete
+      </li>
+    </ContextMenu>
   </div>
 </template>
 
 <script>
 import Checkbox from './components/Checkbox';
 import EditableText from './components/EditableText';
-import DeleteButton from './components/DeleteButton';
-
-import { tasksHelper } from '../../../../helpers/tasks.helper';
+import ContextMenu from '../../../context-menu/ContextMenu';
 
 export default {
   name: 'TaskListItem',
   components: {
     Checkbox,
     EditableText,
-    DeleteButton
+    ContextMenu
   },
   props: {
     task: Object
@@ -45,20 +47,9 @@ export default {
     return {
       taskStatus: this.task.done,
       taskText: this.task.text,
-      selectedTask: tasksHelper.getSelectedTask()
     };
   },
-  created() {
-    tasksHelper.selectedTask.subscribe(task => {
-      this.selectedTask = task;
-    });
-  },
   methods: {
-    getClass(taskId) {
-      return this.selectedTask && this.selectedTask.id === taskId
-        ? 'task-list-item__delete-button'
-        : 'task-list-item__delete-button--hidden';
-    },
     onChange() {
       if (!this.taskText) {
         this.onDeleted();
@@ -72,6 +63,13 @@ export default {
     },
     onDeleted() {
       this.$emit('delete', this.task.id);
+    },
+    onContextMenu($event) {
+      $event.preventDefault();
+      this.$refs.contextMenu.open(
+        $event.pageY || $event.clientY,
+        $event.pageX || $event.clientX
+      );
     }
   }
 }
